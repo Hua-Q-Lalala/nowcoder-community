@@ -4,6 +4,7 @@ import java.nio.channels.Pipe;
 import java.util.Date;
 
 /**
+ * 帖子实体类
  * @create 2022-03-22 14:02
  */
 public class DiscussPost {

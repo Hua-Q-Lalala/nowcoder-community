@@ -3,6 +3,7 @@ package com.hua.community.entity;
 import java.util.Date;
 
 /**
+ * 用户实体类
  * @create 2022-03-22 11:27
  */
 public class User {

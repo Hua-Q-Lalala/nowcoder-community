@@ -1,6 +1,7 @@
 package com.hua.community.entity;
 
 /**
+ * 用于分页
  * @create 2022-03-22 17:26
  */
 public class Page {

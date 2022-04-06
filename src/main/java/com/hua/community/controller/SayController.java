@@ -1,6 +1,7 @@
 package com.hua.community.controller;
 
 import com.hua.community.service.AlphaService;
+import com.hua.community.util.CommunityUtil;
 import org.aspectj.apache.bcel.classfile.Code;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,8 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
@@ -24,7 +27,8 @@ public class SayController {
     @Autowired
     private AlphaService alphaService;
 
-    @RequestMapping("/say")
+    //path 和 value在@RequestMapping注解上一个意思，都是代表请求路径
+    @RequestMapping(value = {"/say", "speak"})
     @ResponseBody
     public String sayHello(){
         return "Hello Spring Boot";
@@ -116,7 +120,7 @@ public class SayController {
     }
 
     //响应JSON格式数据 （常用于异步请求）
-    //将java对象 转 JSON字符串 在返回给浏览器
+    //将java对象 转 JSON字符串 再返回给浏览器
     @RequestMapping(path = "emp", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> getEmp(){
@@ -156,13 +160,56 @@ public class SayController {
     }
 
 
+    //cookie示例
+    @RequestMapping(path = "/cookie/set", method = RequestMethod.GET)
+    @ResponseBody
+    public String setCookit(HttpServletResponse response){
+        //创建cookie
+        Cookie cookie = new Cookie("code", CommunityUtil.generateUUID());
+        //设置cookie生效的范围
+        cookie.setPath("/community/h");
+        //设置cookie的生存时间 单位秒
+        cookie.setMaxAge(60 * 10);
+        //发送cookie
+        response.addCookie(cookie);
 
+        return "set cookie";
+    }
 
+    @RequestMapping(path = "/cookie/get", method = RequestMethod.GET)
+    @ResponseBody
+    public String getCookie(@CookieValue("code") String code){
+        System.out.println(code);
+        return "get cookie";
+    }
 
+    //session示例
+    @RequestMapping(path = "/session/set", method = RequestMethod.GET)
+    @ResponseBody
+    public String setSession(HttpSession session){
+        session.setAttribute("id", 1);
+        session.setAttribute("name", "test");
+        return "set session";
+    }
 
+    //session示例
+    @RequestMapping(path = "/session/get", method = RequestMethod.GET)
+    @ResponseBody
+    public String getSession(HttpSession session){
+        System.out.println(session.getAttribute("id"));
+        System.out.println(session.getAttribute("name"));
+        System.out.println(session.getId());
+        return "set session";
+    }
 
-
-
-
+    //ajax示例
+    @RequestMapping(path = "/ajax", method = RequestMethod.POST)
+    @ResponseBody
+    public String testAjax(String name, int age){
+        System.out.println(name);
+        System.out.println(age);
+        //0代表成功，msg为提示信息
+        return CommunityUtil.getJsonString(0, "操作成功");
+    }
 
 }
