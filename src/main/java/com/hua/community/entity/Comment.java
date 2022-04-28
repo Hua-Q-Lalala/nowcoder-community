@@ -12,7 +12,7 @@ public class Comment {
     private int userId;     //发布评论的用户id
     private int entityType;     //在哪个实体下发布评论，如：帖子下，或者对帖子评论的回复，以及其他
     private int entityId;   //实体的id，如评论的帖子 的帖子id, 或者是回复的评论 的评论id
-    private int targetId;   //回复的评论的id
+    private int targetId;   //回复的评论的id  targetId
     private String content; //内容
     private int status; //状态
     private Date createTime;    //创建时间
@@ -53,7 +53,7 @@ public class Comment {
         return targetId;
     }
 
-    public void setTargetid(int targetId) {
+    public void setTargetId(int targetId) {
         this.targetId = targetId;
     }
 

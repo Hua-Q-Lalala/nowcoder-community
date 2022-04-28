@@ -4,7 +4,9 @@ import com.hua.community.entity.DiscussPost;
 import com.hua.community.entity.Page;
 import com.hua.community.entity.User;
 import com.hua.community.service.DiscussPostService;
+import com.hua.community.service.LikeService;
 import com.hua.community.service.UserService;
+import com.hua.community.util.CommunityConstant;
 import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.codec.multipart.PartHttpMessageWriter;
@@ -23,13 +25,16 @@ import java.util.Map;
  * @create 2022-03-22 15:14
  */
 @Controller
-public class HomeController {
+public class HomeController implements CommunityConstant {
 
     @Autowired
     private DiscussPostService discussPostService;
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private LikeService likeService;
 
     @RequestMapping(path = "/index", method = RequestMethod.GET)
     public String getIndexPage(Model model, Page page){
@@ -45,6 +50,11 @@ public class HomeController {
             map.put("post", post);
             User user = userService.findUserById(post.getUserId());
             map.put("user", user);
+
+            //查询赞数量
+            long likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST, post.getId());
+            map.put("likeCount", likeCount);
+
             discussPosts.add(map);
         }
 

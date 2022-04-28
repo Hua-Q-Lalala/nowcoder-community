@@ -28,9 +28,24 @@ public class CommentService implements CommunityConstant {
     @Autowired
     private DiscussPostService discussPostService;
 
+    /**
+     * 获取评论列表
+     * @param entityType
+     * @param entityId
+     * @param offset
+     * @param limit
+     * @return
+     */
     public List<Comment> findCommentsByEntity(int entityType, int entityId, int offset, int limit){
         return commentMapper.selectCommentsByEntity(entityType, entityId, offset, limit);
     }
+
+    /**
+     * 获取实体id为entityId， 类型为eneityType下的评论数量
+     * @param entityType
+     * @param entityId
+     * @return
+     */
     public int findCommentCount(int entityType, int entityId){
         return commentMapper.selectCountByEntity(entityType, entityId);
     }
@@ -60,5 +75,28 @@ public class CommentService implements CommunityConstant {
         }
 
         return rows;
+    }
+
+    /**
+     * 查询某用户发布过的评论
+     * @param userId
+     * @param entityType
+     * @param offset
+     * @param limit
+     * @return
+     */
+    public List<Comment> findCommentsByUserId(int userId, int entityType, int offset, int limit){
+        List<Comment> comments = commentMapper.selectCommentsByUserId(userId, ENTITY_TYPE_POST, offset, limit);
+        return comments;
+    }
+
+    /**
+     * 查询某用户发布的评论数量
+     * @param userId
+     * @param entityType
+     * @return
+     */
+    public int findCommentCountByUserId(int userId, int entityType){
+        return commentMapper.selectCommentCountByUserId(userId, entityType);
     }
 }

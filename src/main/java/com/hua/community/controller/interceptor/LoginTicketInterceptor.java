@@ -45,7 +45,7 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
                 hostHolder.setUser(user);
             }
         }
-
+        //拦截器放行
         return true;
     }
 

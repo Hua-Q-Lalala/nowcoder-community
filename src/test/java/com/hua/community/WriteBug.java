@@ -3,6 +3,8 @@ import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 import java.nio.channels.SocketChannel;
+import java.util.ArrayDeque;
+import java.util.LinkedList;
 
 /**
  * @create 2022-04-06 12:28
@@ -33,6 +35,7 @@ public class WriteBug {
         System.out.println(success);
         success = unsafe.compareAndSwapLong(bug, stateOffset, 0, 1);
         System.out.println(success);
+
 
     }
 }

@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +20,7 @@ import java.io.PrintWriter;
 import java.util.*;
 
 /**
+ * 代码示例， 与项目业务方面不相干
  * @create 2022-03-21 18:27
  */
 @Controller
@@ -210,6 +213,15 @@ public class SayController {
         System.out.println(age);
         //0代表成功，msg为提示信息
         return CommunityUtil.getJsonString(0, "操作成功");
+    }
+
+    @RequestMapping(path = "/getContextPath", method = RequestMethod.GET)
+    public void getContextPath(HttpServletRequest request){
+
+        ServletContext context = request.getServletContext();
+        String realPath =context.getRealPath("discuss-detail.css");
+        System.out.println(realPath + "路径");
+
     }
 
 }

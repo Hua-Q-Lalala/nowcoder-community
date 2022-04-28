@@ -35,5 +35,23 @@ public interface CommentMapper {
      * @return
      */
     int insertComment(Comment comment);
+
+    /**
+     * 根据userId查询该用户发布过的评论，分页显示
+     * @param userId
+     * @param entityType
+     * @param offset
+     * @param limit
+     * @return
+     */
+    List<Comment> selectCommentsByUserId(int userId, int entityType, int offset, int limit);
+
+    /**
+     * 查询userId的用户发布过多少条评论
+     * @param userId
+     * @param entityType
+     * @return
+     */
+    int selectCommentCountByUserId(int userId, int entityType);
 }
 

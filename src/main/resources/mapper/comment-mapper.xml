@@ -5,8 +5,7 @@
 <mapper namespace="com.hua.community.dao.CommentMapper">
 
     <sql id="selectFields">
-        id
-        , user_id, entity_type, entity_id, target_id, content, status, create_time
+        id, user_id, entity_type, entity_id, target_id, content, status, create_time
     </sql>
 
     <sql id="insertFields">
@@ -38,5 +37,22 @@
         values(#{userId}, #{entityType}, #{entityId}, #{targetId}, #{content}, #{status}, #{createTime})
     </insert>
 
+    <select id="selectCommentsByUserId" resultType="Comment">
+        select <include refid="selectFields"></include>
+        from comment
+        where status = 0
+        and user_id = #{userId}
+        and entity_type = #{entityType}
+        and exists (select * from discuss_post where id = comment.entity_id and status != 2)
+        order by create_time desc
+        limit #{offset}, #{limit}
+    </select>
 
+    <select id="selectCommentCountByUserId" resultType="int">
+        select count(id)
+        from comment
+        where user_id = #{userId}
+        and entity_type = #{entityType}
+        and  exists (select * from discuss_post where id = comment.entity_id and status != 2)
+    </select>
 </mapper>
