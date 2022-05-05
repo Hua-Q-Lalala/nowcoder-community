@@ -1,10 +1,8 @@
 package com.hua.community.controller;
 
 import com.hua.community.dao.CommentMapper;
-import com.hua.community.entity.Comment;
-import com.hua.community.entity.DiscussPost;
-import com.hua.community.entity.Page;
-import com.hua.community.entity.User;
+import com.hua.community.entity.*;
+import com.hua.community.event.EventProducer;
 import com.hua.community.service.CommentService;
 import com.hua.community.service.DiscussPostService;
 import com.hua.community.service.LikeService;
@@ -44,6 +42,9 @@ public class DiscussPostController implements CommunityConstant {
     @Autowired
     private LikeService likeService;
 
+    @Autowired
+    private EventProducer eventProducer;
+
     /**
      * 向数据库插入帖子
      * @param title 帖子标题
@@ -66,6 +67,14 @@ public class DiscussPostController implements CommunityConstant {
         post.setCreateTime(new Date());
 
         discussPostService.addDiscussPost(post);
+
+        //触发发帖事件
+        Event event = new Event()
+                .setTopic(TOPIC_PUBLISH)
+                .setUserId(user.getId())
+                .setEntityType(ENTITY_TYPE_POST)
+                .setEntityId(post.getId());
+        eventProducer.fireEvent(event);
 
         //执行到这里，表示程序运行成功
         //报错的情况，将来统一处理。

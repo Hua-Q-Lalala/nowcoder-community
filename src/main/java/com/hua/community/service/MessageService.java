@@ -9,7 +9,6 @@ import org.springframework.web.util.HtmlUtils;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @create 2022-04-03 22:03
@@ -100,5 +99,47 @@ public class MessageService {
      */
     public int deleteMessage(int id) {
         return messageMapper.updateStatus(Arrays.asList(new Integer[]{id}), 2);
+    }
+
+    /**
+     * 查找最新一条系统通知
+     * @param userId
+     * @param topic
+     * @return
+     */
+    public Message findLastNotice(int userId, String topic){
+        return messageMapper.selectLastNotice(userId, topic);
+    }
+
+    /**
+     * 查找系统通知数量
+     * @param userId
+     * @param topic
+     * @return
+     */
+    public int findNoticeCount(int userId, String topic){
+        return messageMapper.selectNoticeCount(userId, topic);
+    }
+
+    /**
+     * 查找未读的系统通知数量
+     * @param userId
+     * @param topic
+     * @return
+     */
+    public int findNoticeUnreadCount(int userId, String topic){
+        return messageMapper.selectNoticeUnreadCount(userId, topic);
+    }
+
+    /**
+     * 查询某个主题所包含的通知列表
+     * @param userId
+     * @param topic
+     * @param offset
+     * @param limit
+     * @return
+     */
+    public List<Message> findNotices(int userId, String topic, int offset, int limit){
+        return messageMapper.selectNotices(userId, topic, offset, limit);
     }
 }

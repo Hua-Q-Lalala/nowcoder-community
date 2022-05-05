@@ -4,6 +4,7 @@ import com.hua.community.annotation.LoginRequired;
 import com.hua.community.controller.interceptor.AlphaInterceptor;
 import com.hua.community.controller.interceptor.LoginRequiredInterceptor;
 import com.hua.community.controller.interceptor.LoginTicketInterceptor;
+import com.hua.community.controller.interceptor.MessageInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -26,6 +27,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private LoginRequiredInterceptor loginRequiredInterceptor;
 
+    @Autowired
+    private MessageInterceptor messageInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(alphaInterceptor)
@@ -36,6 +40,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         .excludePathPatterns("/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*jpeg");
 
         registry.addInterceptor(loginRequiredInterceptor)   //添加拦截器
+                .excludePathPatterns("/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*jpeg");
+
+        registry.addInterceptor(messageInterceptor)   //添加拦截器
                 .excludePathPatterns("/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*jpeg");
     }
 

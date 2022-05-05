@@ -56,6 +56,7 @@ public class SayController {
             System.out.println(name + ":" + value);
         }
 
+
         System.out.println(request.getParameter("code"));
 
         //返回响应数据
@@ -222,6 +223,7 @@ public class SayController {
         String realPath =context.getRealPath("discuss-detail.css");
         System.out.println(realPath + "路径");
 
+        
     }
 
 }

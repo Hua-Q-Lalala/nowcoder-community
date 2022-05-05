@@ -53,5 +53,12 @@ public interface CommentMapper {
      * @return
      */
     int selectCommentCountByUserId(int userId, int entityType);
+
+    /**
+     * 根据id查询一条comment
+     * @param id
+     * @return
+     */
+    Comment selectCommentById(int id);
 }
 

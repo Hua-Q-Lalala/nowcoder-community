@@ -4,7 +4,7 @@ import com.hua.community.entity.LoginTicket;
 import org.apache.ibatis.annotations.*;
 
 /**
- * 过时的类，以利用redis重构
+ * 过时的类，用于向数据库中插入用户登录的ticket, 已利用redis重构
  * @create 2022-03-26 13:08
  */
 @Mapper

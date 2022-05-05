@@ -44,6 +44,10 @@ public class ServiceLogAspect {
         //日志格式：用户[ip地址], 在[时间]，访问了[com.hua.community.service.类名.方法（）]
         //1.获取request对象，从request对象中获取访问的ip地址
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
+        if(attributes == null){
+            return;
+        }
         HttpServletRequest request = attributes.getRequest();
         String ip = request.getRemoteHost();
         //获取当前时间

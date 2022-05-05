@@ -55,4 +55,11 @@
         and entity_type = #{entityType}
         and  exists (select * from discuss_post where id = comment.entity_id and status != 2)
     </select>
+
+    <select id="selectCommentById" resultType="Comment">
+        select
+        <include refid="selectFields"></include>
+        from comment
+        where id = #{id}
+    </select>
 </mapper>

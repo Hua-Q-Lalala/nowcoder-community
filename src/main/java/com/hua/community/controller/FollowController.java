@@ -1,7 +1,9 @@
 package com.hua.community.controller;
 
+import com.hua.community.entity.Event;
 import com.hua.community.entity.Page;
 import com.hua.community.entity.User;
+import com.hua.community.event.EventProducer;
 import com.hua.community.service.FollowService;
 import com.hua.community.service.UserService;
 import com.hua.community.util.CommunityConstant;
@@ -22,7 +24,7 @@ import java.util.Map;
  * @create 2022-04-08 0:33
  */
 @Controller
-public class FollowController {
+public class FollowController implements CommunityConstant{
 
     @Autowired
     private FollowService followService;
@@ -32,6 +34,9 @@ public class FollowController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EventProducer eventProducer;
 
     /**
      * 关注
@@ -45,6 +50,15 @@ public class FollowController {
         User user = hostHolder.getUser();
 
         followService.follow(user.getId(), entityType, entityId);
+
+        //触发关注事件
+        Event event = new Event()
+                .setTopic(TOPIC_FOLLOW)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(entityType)
+                .setEntityId(entityId)
+                .setEntityUserId(entityId);
+        eventProducer.fireEvent(event);
 
         return CommunityUtil.getJsonString(0, "已关注！");
     }
